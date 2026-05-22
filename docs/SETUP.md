@@ -56,20 +56,38 @@ whisper --help
 
 ## 3. 配置 API Key
 
-如果用 OpenAI API 辅助长视频理解、转写、图片理解或最终写作，建议在 shell 配置里设置：
+推荐把文本模型和视觉模型分开配置：文本走 DeepSeek V4，关键帧理解走 Kimi。
 
 ```bash
-export OPENAI_API_KEY="sk-..."
+cp .env.example .env
 ```
 
-长期使用可以写入 `~/.zshrc`：
+编辑 `.env`：
 
 ```bash
-echo 'export OPENAI_API_KEY="sk-..."' >> ~/.zshrc
-source ~/.zshrc
+TEXT_BASE_URL=https://api.deepseek.com
+TEXT_API_KEY=your_deepseek_api_key
+TEXT_MODEL=deepseek-v4-flash
+TEXT_STRONG_MODEL=deepseek-v4-pro
+
+VISION_BASE_URL=https://api.moonshot.ai/v1
+VISION_API_KEY=your_moonshot_api_key
+VISION_MODEL=kimi-k2.6
 ```
 
-不要把 API Key 提交到 Git。
+如果 `kimi-k2.6` 暂时不可用，可以先把 `VISION_MODEL` 改成 `moonshot-v1-128k-vision-preview`。不要把 `.env` 或 API Key 提交到 Git。
+
+中英混合视频的转写建议先用本地 Whisper 自动识别语言：
+
+```bash
+whisper audio.wav --model small --output_format srt --output_dir subtitles
+```
+
+如果术语或中文识别质量不够，再换：
+
+```bash
+whisper audio.wav --model medium --output_format srt --output_dir subtitles
+```
 
 ## 4. Bilibili 高清与登录 cookies
 
@@ -86,13 +104,13 @@ yt-dlp --cookies-from-browser chrome -F "https://www.bilibili.com/video/BV..."
 YouTube 示例：
 
 ```text
-$youtube-render-pdf https://www.youtube.com/watch?v=... 请生成结构化中文讲义和最终 PDF。长视频请按章节拆分，并尽量使用 sub agents 做分段覆盖。
+$youtube-render-pdf https://www.youtube.com/watch?v=... 请生成结构化中文讲义和最终 PDF。长视频请按章节拆分。文本分段和最终整合用 DeepSeek V4，关键帧理解用 Kimi，多语言字幕优先用本地 Whisper 生成 SRT。
 ```
 
 Bilibili 示例：
 
 ```text
-$bilibili-render-pdf https://www.bilibili.com/video/BV... 请生成结构化中文讲义和最终 PDF。如无 CC 字幕，先用 Whisper 生成带时间戳的 SRT。
+$bilibili-render-pdf https://www.bilibili.com/video/BV... 请生成结构化中文讲义和最终 PDF。如无 CC 字幕，先用本地 Whisper 生成带时间戳的 SRT。文本分段和最终整合用 DeepSeek V4，关键帧理解用 Kimi。
 ```
 
 长视频建议追加：
