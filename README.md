@@ -63,6 +63,7 @@ cp -R skills/bilibili-render-pdf ~/.codex/skills/
 然后在 Codex 中使用对应 skill 处理视频链接，请求生成讲义 `.tex` 和最终 PDF。
 
 更完整的本地依赖、API Key、Bilibili cookies、长视频调用方式见 [`docs/SETUP.md`](docs/SETUP.md)。
+推荐的 OpenAI API 与模型组合见 [`docs/API_RECOMMENDATIONS.md`](docs/API_RECOMMENDATIONS.md)。
 
 ## 外部依赖
 
