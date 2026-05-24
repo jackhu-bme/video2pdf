@@ -64,6 +64,42 @@ cp -R skills/bilibili-render-pdf ~/.codex/skills/
 
 更完整的本地依赖、API Key、Bilibili cookies、长视频调用方式见 [`docs/SETUP.md`](docs/SETUP.md)。
 推荐的 OpenAI API 与模型组合见 [`docs/API_RECOMMENDATIONS.md`](docs/API_RECOMMENDATIONS.md)。
+环境配置与实测记录见 [`docs/ENV_SETUP_LOG.md`](docs/ENV_SETUP_LOG.md) 和 [`docs/TEST_RUN_LOG_2026-05-24.md`](docs/TEST_RUN_LOG_2026-05-24.md)。
+
+## 快速冒烟测试
+
+本仓库提供了一个短视频端到端 smoke test 脚本：`scripts/smoke_generate_notes_pdf.py`。建议配合一键脚本 `scripts/run_smoke_test.sh` 使用。
+
+### 一键运行（推荐）
+
+```bash
+bash scripts/run_smoke_test.sh
+```
+
+默认测试视频为：
+
+`https://www.youtube.com/watch?v=lTcOkFg4geg`
+
+### 自定义视频链接
+
+```bash
+TEST_URL="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" bash scripts/run_smoke_test.sh
+```
+
+### 产物目录
+
+脚本默认在 `work/test-youtube-smoke/` 产出：
+
+- `*.info.json` / `*.webp`
+- `audio.wav`
+- `subtitles/audio.srt`
+- `video.mp4`
+- `frames/frame_*.jpg`
+- `contact_sheet.jpg`
+- `vision_notes.md`
+- `notes.json`
+- `notes.tex`
+- `notes.pdf`
 
 ## 外部依赖
 
